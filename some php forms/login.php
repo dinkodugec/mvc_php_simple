@@ -2,8 +2,8 @@
     session_start();  //always use session_start() in first lines of code
     $title = 'Session';
 
-    require_once('./../inc/config.php');
-    require_once('./../inc/functions.php');
+    require_once('inc/config.php');
+    require_once('inc/functions.php');
 
     if (is_user_authenticated()) {
       redirect('admin.php');
@@ -31,7 +31,7 @@
     }
 
 
-    include('./../inc/header.php');
+    include('inc/header.php');
 ?>
 
     <div class="container">
@@ -72,4 +72,4 @@
       </div>
     </div>
 
-<?php include('./../inc/footer.php'); ?>
+<?php include('inc/footer.php'); ?>
