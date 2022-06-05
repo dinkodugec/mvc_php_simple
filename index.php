@@ -1,14 +1,8 @@
 <?php
 require('app/app.php');
 
+$view_bag = [
+    'title'=>'Glossary list'
+];
 
-$data = get_data();
-
-$title = 'hello, php';
-
-$view_bag = [];
-
-$view_bag['title'] = 'This is the Title';
-
-
-view('index', $data);
+view('index', get_terms());
