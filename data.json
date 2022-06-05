@@ -1,0 +1,18 @@
+[
+
+    {
+        "term": "css",
+        "definiton" : "cascading style sheets" 
+    },
+
+    {
+        "term" : "js",
+        "definition" : "javascript"
+    },
+
+    {
+        "term" : "php",
+        "definition" : "hypert-text-procesor"
+    }
+
+]
