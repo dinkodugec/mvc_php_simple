@@ -8,5 +8,5 @@ function redirect($url){
 
 function view($name, $model="") {
     global $view_bag;
-    require("views/layout.view.php");
+    require(APP_NAME . "views/layout.view.php");
 }
