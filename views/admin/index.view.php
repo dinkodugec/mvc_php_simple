@@ -5,12 +5,7 @@
     </div>
     </div>
     <div class="row">
-        <form action="index.php" method="GET" class="form-inline">
-            <div class="form-group">
-                <input type="text" name="search" id="search">
-                <input type="submit" value="search">
-            </div>
-        </form>
+        <a href="create.php">Create New Term</a>
     </div>
     <div class="row">
     <table class="table table-striped">

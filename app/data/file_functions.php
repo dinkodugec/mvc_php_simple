@@ -17,6 +17,27 @@ function get_term($term) {
     return false;
 }
 
+function add_term($term, $definition) {
+    $items = get_terms();
+
+    $obj = (object) [
+        'term' => $term,
+        'definition' => $definition
+    ];
+
+    $items[] = $obj;
+
+    set_data($items);
+}
+
+function set_data($arr) {
+    $fname = CONFIG['data_file'];
+
+    $json = json_encode($arr);
+
+    file_put_contents($fname, $json);
+}
+
 
 function get_data(){
     $fname = CONFIG['data_file'];

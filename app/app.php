@@ -1,6 +1,6 @@
 <?php
 
-define('APP_NAME', dirname(__FILE__) . '/../'); //directory name - this give us directory every file we specify
+define('APP_NAME', dirname(__FILE__) . '/../'); 
 
 require('functions.php');
 require('config.php');
