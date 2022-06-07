@@ -1,14 +1,17 @@
 <?php
 
-function redirect($url){
+function redirect($url) {
     header("Location: $url");
     die();
-
 }
 
-function view($name, $model="") {
+function view($name, $model = '') {
     global $view_bag;
     require(APP_NAME . "views/layout.view.php");
+}
+
+function is_get() {
+    return $_SERVER['REQUEST_METHOD'] === 'GET';
 }
 
 function is_post() {

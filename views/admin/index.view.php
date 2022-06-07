@@ -11,7 +11,9 @@
     <table class="table table-striped">
         <?php foreach ($model as $item) : ?>
             <tr>
-            <td><a href="detail.php?term=<?= $item->term ?>"><?= $item->term ?></a></td>
+                <td></td>
+                <td><a href="edit.php?key=<?= $item->term ?>">Edit</a></td>
+                <td><?= $item->term ?></td>
                 <td><?= $item->definition ?></td>
                 
             </tr>
