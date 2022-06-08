@@ -7,7 +7,7 @@ function redirect($url) {
 
 function view($name, $model = '') {
     global $view_bag;
-    require(APP_NAME . "views/layout.view.php");
+    require(APP_PATH . "views/layout.view.php");
 }
 
 function is_get() {

@@ -8,7 +8,7 @@ $view_bag = [
 ];
 
 if (isset($_GET['search'])) {
-    $items = Data::search_term($_GET['search']);
+    $items = Data::search_terms($_GET['search']);
 
     $view_bag['heading'] = 'Search Results for ' . $_GET['search'];
 } else {
