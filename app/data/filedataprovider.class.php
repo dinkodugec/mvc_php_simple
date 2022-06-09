@@ -1,6 +1,7 @@
 <?php
 
-class FileDataProvider extends DataProvider {
+class FileDataProvider extends DataProvider 
+{
     public function get_terms() {
         $json = $this->get_data();
     
