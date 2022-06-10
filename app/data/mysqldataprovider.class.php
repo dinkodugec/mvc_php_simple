@@ -88,11 +88,41 @@ class MySqlDataProvider extends DataProvider {
     }
     
     public function update_term($original_term, $new_term, $definition) {
-        
+        $db = $this->connect();
+
+        if ($db == null) {
+            return;
+        }
+
+        $sql = 'UPDATE terms SET term = :term, definition = :definition WHERE id = :id';
+        $smt = $db->prepare($sql);
+
+        $smt->execute([
+            ':term' => $new_term,
+            ':definition' => $definition,
+            ':id' => $original_term
+        ]);
+
+        $smt = null;
+        $db = null;
     }
     
     public function delete_term($term) {
-        
+        $db = $this->connect();
+
+        if ($db == null) {
+            return;
+        }
+
+        $sql = 'DELETE FROM terms WHERE id = :id';
+        $smt = $db->prepare($sql);
+
+        $smt->execute([
+            ':id' => $term
+        ]);
+
+        $smt = null;
+        $db = null;
     }
 
     private function connect() {
