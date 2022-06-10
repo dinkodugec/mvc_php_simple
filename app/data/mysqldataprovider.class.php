@@ -2,22 +2,9 @@
 
 class MySqlDataProvider extends DataProvider {
     public function get_terms() {
-        $db = $this->connect();
-
-        if ($db == null) {
-            return [];
-        }
-
-        $query = $db->query('SELECT * FROM terms');
-
-        $data = $query->fetchAll(PDO::FETCH_CLASS, 'GlossaryTerm');
-
-        $query = null;
-        $db = null;
-
-        return $data;
+        return $this->query('SELECT * FROM terms');
     }
-
+    
     public function get_term($term) {
         $db = $this->connect();
 
@@ -34,92 +21,87 @@ class MySqlDataProvider extends DataProvider {
 
         $data = $smt->fetchAll(PDO::FETCH_CLASS, 'GlossaryTerm');
 
+        $smt = null;
+        $db = null;
+
         if (empty($data)) {
             return;
         }
 
-        $smt = null;
-        $db = null;
+        
 
         return $data[0];
     }
     
-   public function search_terms($search) {
+    public function search_terms($search) {
+        return $this->query(
+            'SELECT * FROM terms WHERE term LIKE :search OR definition LIKE :search',
+            [':search' => '%'.$search.'%']
+        );
+    }
+    
+    public function add_term($term, $definition) {
+        $this->execute(
+            'INSERT INTO terms (term, definition) VALUES (:term, :definition)',
+            [
+                ':term' => $term,
+                ':definition' => $definition
+            ]
+        );
+    }
+    
+    public function update_term($original_term, $new_term, $definition) {
+        $this->execute(
+            'UPDATE terms SET term = :term, definition = :definition WHERE id = :id',
+            [
+                ':term' => $new_term,
+                ':definition' => $definition,
+                ':id' => $original_term
+            ]
+        );
+    }
+    
+    public function delete_term($term) {
+        $this->execute(
+            'DELETE FROM terms WHERE id = :id',
+            [':id' => $term]
+        );
+    }
+
+    private function query($sql, $sql_parms = []) {
         $db = $this->connect();
 
         if ($db == null) {
             return [];
         }
 
-        $sql = 'SELECT * FROM terms WHERE term LIKE :search OR definition LIKE :search';
-        $smt = $db->prepare($sql);
+        $query = null;
 
-        // style%
+        if (empty($sql_parms)) {
+            $query = $db->query($sql);
+        } else {
+            $query = $db->prepare($sql);
+            $query->execute($sql_parms);
+        }
 
-        $smt->execute([
-            ':search' => '%'.$search.'%',
-        ]);
+        $data = $query->fetchAll(PDO::FETCH_CLASS, 'GlossaryTerm');
 
-        $data = $smt->fetchAll(PDO::FETCH_CLASS, 'GlossaryTerm');
-
-        $smt = null;
+        $query = null;
         $db = null;
 
         return $data;
     }
-    
-    public function add_term($term, $definition) {
+
+    private function execute($sql, $sql_parms) {
         $db = $this->connect();
 
         if ($db == null) {
             return;
         }
 
-        $sql = 'INSERT INTO terms (term, definition) VALUES (:term, :definition)';
         $smt = $db->prepare($sql);
 
-        $smt->execute([
-            ':term' => $term,
-            ':definition' => $definition
-        ]);
-
-        $smt = null; //set to null to free resources
-        $db = null;
-    }
-    
-    public function update_term($original_term, $new_term, $definition) {
-        $db = $this->connect();
-
-        if ($db == null) {
-            return;
-        }
-
-        $sql = 'UPDATE terms SET term = :term, definition = :definition WHERE id = :id';
-        $smt = $db->prepare($sql);
-
-        $smt->execute([
-            ':term' => $new_term,
-            ':definition' => $definition,
-            ':id' => $original_term
-        ]);
-
-        $smt = null;
-        $db = null;
-    }
-    
-    public function delete_term($term) {
-        $db = $this->connect();
-
-        if ($db == null) {
-            return;
-        }
-
-        $sql = 'DELETE FROM terms WHERE id = :id';
-        $smt = $db->prepare($sql);
-
-        $smt->execute([
-            ':id' => $term
-        ]);
+        $smt->execute($sql_parms);
 
         $smt = null;
         $db = null;
