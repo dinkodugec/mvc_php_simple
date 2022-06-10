@@ -25,10 +25,10 @@ class FileDataProvider extends DataProvider
     
         $results = array_filter($items, function($item) use($search) {
             
-            if (strpos($item->term, $search) !== false || 
-                strpos($item->definition, $search) !== false) {
-                return $item;
-            }
+            if (str_contains($item->term, $search) || 
+                str_contains($item->definition, $search)) {
+            return $item;
+        }
         });
     
         return $results;
